@@ -6,46 +6,58 @@ import java.util.*;
 public class TrainService {
 
 	private Set<Bogie> formation = new LinkedHashSet<>();
+	private Map<String, Integer> capacityRules = new HashMap<>();
 
 	/**
-     * CREATE: Attaches a bogie in order. If the bogie ID already exists, 
-     * the method ignores the insertion automatically. [cite: 404, 435]
+     * Defines the capacity rule for a specific type of bogie
+     */
+    public void setCapacityRule(String type, int capacity) {
+        capacityRules.put(type, capacity); // [cite: 548, 562]
+        System.out.println("Rule Defined: " + type + " bogies carry " + capacity + " units.");
+    }
+    
+    /**
+     * CREATE: Attaches a bogie to the train
      */
     public void addBogie(Bogie bogie) {
-        // LinkedHashSet handles the duplicate check internally
-        if (!formation.add(bogie)) {
-            System.out.println("Duplicate Blocked: Bogie ID " + bogie.getId() + " is already in the formation.");
+        if (!formation.add(bogie)) { // [cite: 435]
+            System.out.println("Error: Bogie " + bogie.getId() + " is already attached.");
             return;
         }
-        System.out.println("Attached in Sequence: " + bogie.getId());
+        System.out.println("Attached: " + bogie.getId());
     }
-	
+    
     /**
-     * DELETE: Removes a specific bogie from the formation.
+     * DELETE: Detaches a bogie by its ID
      */
     public void removeBogieById(String id) {
         boolean removed = formation.removeIf(b -> b.getId().equals(id));
         if (removed) {
-            System.out.println("Detached Bogie ID: " + id);
+            System.out.println("Detached: " + id);
         } else {
-            System.out.println("Error: Bogie ID " + id + " not found.");
+            System.out.println("Error: Bogie " + id + " not found.");
         }
     }
-	
+    
     /**
-     * READ: Verifies if a specific bogie ID is present.
+     * READ: Verifies if a bogie is in the consist
      */
     public boolean hasBogie(String id) {
         return formation.stream().anyMatch(b -> b.getId().equals(id));
     }
     
+    
     /**
-     * READ: Displays final train formation in original order. [cite: 407, 428]
+     * READ: Displays the full consist with capacity lookups
      */
-    public void printFormationSummary() {
-        System.out.println("\n--- UC5 Final Train Formation ---");
-        // Iteration returns bogies in the same order they were connected [cite: 445]
-        formation.forEach(System.out::println);
+    public void printFullStatus() {
+        System.out.println("\n--- Current Train Status ---");
+        for (Bogie bogie : formation) {
+            // Lookup capacity based on the bogie name/type from our Map
+            Integer cap = capacityRules.get(bogie.getName());
+            System.out.println(bogie.getId() + " [" + bogie.getName() + "] -> Capacity: " + (cap != null ? cap : "Unknown"));
+        }
         System.out.println("Total Bogies: " + formation.size());
     }
+    
 }
