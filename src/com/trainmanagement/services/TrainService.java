@@ -5,72 +5,47 @@ import java.util.*;
 
 public class TrainService {
 
-	private LinkedList<Bogie> trainConsist = new LinkedList<>();
-	private Set<String> registeredIds = new HashSet<>();
+	private Set<Bogie> formation = new LinkedHashSet<>();
 
 	/**
-     * CREATE: Adds a bogie only if the ID is unique.
+     * CREATE: Attaches a bogie in order. If the bogie ID already exists, 
+     * the method ignores the insertion automatically. [cite: 404, 435]
      */
-	public void addBogie(Bogie bogie) {
-        if (!registeredIds.add(bogie.getId())) {
-            System.out.println("Duplicate Blocked: " + bogie.getId());
+    public void addBogie(Bogie bogie) {
+        // LinkedHashSet handles the duplicate check internally
+        if (!formation.add(bogie)) {
+            System.out.println("Duplicate Blocked: Bogie ID " + bogie.getId() + " is already in the formation.");
             return;
         }
-        trainConsist.addLast(bogie); // Attaches to the rear
-        System.out.println("Attached to Rear: " + bogie.getId());
+        System.out.println("Attached in Sequence: " + bogie.getId());
     }
 	
-	public void addFirst(Bogie bogie) {
-        if (registeredIds.add(bogie.getId())) {
-            trainConsist.addFirst(bogie);
-            System.out.println("Attached to Front: " + bogie.getId());
-        }
-    }
-	
-	public void addAtPosition(int index, Bogie bogie) {
-        if (index >= 0 && index <= trainConsist.size() && registeredIds.add(bogie.getId())) {
-            trainConsist.add(index, bogie);
-            System.out.println("Inserted at position " + index + ": " + bogie.getId());
-        }
-    }
-    
     /**
-     * DELETE: Removes a bogie from both the consist and the unique ID tracker.
+     * DELETE: Removes a specific bogie from the formation.
      */
     public void removeBogieById(String id) {
-        // Find the bogie in the list to remove it
-        boolean removed = trainConsist.removeIf(b -> b.getId().equals(id));
-        
+        boolean removed = formation.removeIf(b -> b.getId().equals(id));
         if (removed) {
-            // Also remove from the Set to allow this ID to be reused if needed
-            registeredIds.remove(id);
             System.out.println("Detached Bogie ID: " + id);
         } else {
-            System.out.println("Error: Bogie ID " + id + " not found in consist.");
+            System.out.println("Error: Bogie ID " + id + " not found.");
         }
     }
-    
+	
     /**
-     * READ: Checks whether a specific bogie ID exists in the train.
+     * READ: Verifies if a specific bogie ID is present.
      */
     public boolean hasBogie(String id) {
-        // Sets provide O(1) lookup time, making this more efficient than list traversal
-        return registeredIds.contains(id);
+        return formation.stream().anyMatch(b -> b.getId().equals(id));
     }
     
     /**
-     * READ: Displays the summary of the train formation.
+     * READ: Displays final train formation in original order. [cite: 407, 428]
      */
-    public void printConsistSummary() {
-        System.out.println("\n--- Train Consist Summary ---");
-        if (trainConsist.isEmpty()) {
-            System.out.println("The train is currently empty.");
-        } else {
-            trainConsist.forEach(System.out::println);
-        }
-        System.out.println("Total Unique Bogies: " + registeredIds.size());
+    public void printFormationSummary() {
+        System.out.println("\n--- UC5 Final Train Formation ---");
+        // Iteration returns bogies in the same order they were connected [cite: 445]
+        formation.forEach(System.out::println);
+        System.out.println("Total Bogies: " + formation.size());
     }
-    
-    
-
 }

@@ -4,12 +4,12 @@ import com.trainmanagement.models.*;
 import com.trainmanagement.services.*;
 
 /**
- * Use Case 4: Maintain Ordered Bogie Consist.
- * This class models the physical chaining of train bogies using LinkedList 
- * for ordered and positional operations
+ * Use Case 5: Preserve Insertion Order of Bogies.
+ * This service maintains the exact attachment order of bogies 
+ * while also preventing duplicate entries using LinkedHashSet.
  *
  * @author Developer
- * @version 4.0
+ * @version 5.0
  */
 
 public class Main {
@@ -21,16 +21,15 @@ public class Main {
 		
 		TrainService trainService = new TrainService();
 		
-		trainService.addBogie(new Bogie("B101", "Sleeper", 72));
-        trainService.addBogie(new Bogie("B102", "AC Chair", 56));
+		trainService.addBogie(new Bogie("B101", "Engine", 0));
+        trainService.addBogie(new Bogie("B102", "Sleeper", 72));
+        trainService.addBogie(new Bogie("B103", "Cargo", 120));
+        trainService.addBogie(new Bogie("B104", "Guard", 0));
         
-        trainService.addFirst(new Bogie("ENG-01", "Engine", 0));
+        trainService.addBogie(new Bogie("B102", "Sleeper", 72)); 
 
-        trainService.addAtPosition(2, new Bogie("P-500", "Pantry Car", 0));
-
-        System.out.println("Has AC Chair (B102)? " + trainService.hasBogie("B102"));
-        
-        trainService.printConsistSummary();
+        trainService.printFormationSummary();
+        System.out.println("UC5 formation setup completed.");
 		
 		
 	}
