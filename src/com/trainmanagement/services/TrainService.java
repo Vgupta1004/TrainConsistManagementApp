@@ -5,19 +5,33 @@ import java.util.*;
 
 public class TrainService {
 
-	private List<Bogie> trainConsist = new ArrayList<>();
+	private LinkedList<Bogie> trainConsist = new LinkedList<>();
 	private Set<String> registeredIds = new HashSet<>();
 
 	/**
      * CREATE: Adds a bogie only if the ID is unique.
      */
-    public void addBogie(Bogie bogie) {
+	public void addBogie(Bogie bogie) {
         if (!registeredIds.add(bogie.getId())) {
-            System.out.println("Validation Failed: Duplicate Bogie ID " + bogie.getId());
+            System.out.println("Duplicate Blocked: " + bogie.getId());
             return;
         }
-        trainConsist.add(bogie);
-        System.out.println("Attached: " + bogie.getId() + " (" + bogie.getName() + ")");
+        trainConsist.addLast(bogie); // Attaches to the rear
+        System.out.println("Attached to Rear: " + bogie.getId());
+    }
+	
+	public void addFirst(Bogie bogie) {
+        if (registeredIds.add(bogie.getId())) {
+            trainConsist.addFirst(bogie);
+            System.out.println("Attached to Front: " + bogie.getId());
+        }
+    }
+	
+	public void addAtPosition(int index, Bogie bogie) {
+        if (index >= 0 && index <= trainConsist.size() && registeredIds.add(bogie.getId())) {
+            trainConsist.add(index, bogie);
+            System.out.println("Inserted at position " + index + ": " + bogie.getId());
+        }
     }
     
     /**
