@@ -1,38 +1,62 @@
 package com.trainmanagement.services;
 
 import com.trainmanagement.models.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TrainService {
 
 	private List<Bogie> trainConsist = new ArrayList<>();
+	private Set<String> registeredIds = new HashSet<>();
 
-    // CREATE: Add a new bogie to the end of the train
+	/**
+     * CREATE: Adds a bogie only if the ID is unique.
+     */
     public void addBogie(Bogie bogie) {
+        if (!registeredIds.add(bogie.getId())) {
+            System.out.println("Validation Failed: Duplicate Bogie ID " + bogie.getId());
+            return;
+        }
         trainConsist.add(bogie);
-        System.out.println("Attached: " + bogie.getName());
+        System.out.println("Attached: " + bogie.getId() + " (" + bogie.getName() + ")");
     }
     
-    // DELETE: Remove a specific bogie from the consist
-    public void removeBogie(String name) {
-        // Find and remove by name
-        boolean removed = trainConsist.removeIf(b -> b.getName().equalsIgnoreCase(name));
+    /**
+     * DELETE: Removes a bogie from both the consist and the unique ID tracker.
+     */
+    public void removeBogieById(String id) {
+        // Find the bogie in the list to remove it
+        boolean removed = trainConsist.removeIf(b -> b.getId().equals(id));
+        
         if (removed) {
-            System.out.println("Detached: " + name);
+            // Also remove from the Set to allow this ID to be reused if needed
+            registeredIds.remove(id);
+            System.out.println("Detached Bogie ID: " + id);
+        } else {
+            System.out.println("Error: Bogie ID " + id + " not found in consist.");
         }
     }
     
-    // READ: Check if a certain type of bogie is present
-    public boolean hasBogieType(String name) {
-        return trainConsist.stream()
-                .anyMatch(b -> b.getName().equalsIgnoreCase(name));
+    /**
+     * READ: Checks whether a specific bogie ID exists in the train.
+     */
+    public boolean hasBogie(String id) {
+        // Sets provide O(1) lookup time, making this more efficient than list traversal
+        return registeredIds.contains(id);
     }
     
-    // READ: Display the final consist summary
+    /**
+     * READ: Displays the summary of the train formation.
+     */
     public void printConsistSummary() {
-        System.out.println("Current Train Formation: " + trainConsist);
-        System.out.println("Total Bogie Count: " + trainConsist.size());
+        System.out.println("\n--- Train Consist Summary ---");
+        if (trainConsist.isEmpty()) {
+            System.out.println("The train is currently empty.");
+        } else {
+            trainConsist.forEach(System.out::println);
+        }
+        System.out.println("Total Unique Bogies: " + registeredIds.size());
     }
+    
+    
 
 }
