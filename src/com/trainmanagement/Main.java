@@ -5,12 +5,12 @@ import com.trainmanagement.services.*;
 import com.trainmanagement.exceptions.*;
 
 /**
- * Use Case 15: Safe Cargo Assignment Using try-catch-finally 
- * Description: This use case demonstrates how to safely handle exceptions 
- * when assigning cargo to a bogie.
+ * Use Case 16: Sort Passenger Bogies by Capacity (Bubble Sort)
+ * Implements the Bubble Sort algorithm for educational purposes 
+ * to demonstrate O(n^2) time complexity.
  * 
  * @author Developer
- * @version 15.0
+ * @version 16.0
  */
 
 public class Main {
@@ -20,23 +20,17 @@ public class Main {
 		System.out.println("Train Consist Management App");
 		System.out.println("---------------------------------------");
 		
-		GoodsBogie bogieG1 = new GoodsBogie("G-501", "Rectangular");
-		
-		try {
-            // Attempt an unsafe assignment
-            System.out.println("Attempting to load Petroleum into Rectangular Bogie...");
-            bogieG1.assignCargo("Petroleum");
+		int[] capacities = {72, 56, 24, 70, 60};
+        
+        System.out.println("Original Capacities: " + Arrays.toString(capacities));
 
-        } catch (CargoSafetyException e) {
-            // Catch and report the error without crashing the app
-            System.err.println("STOPPED: " + e.getMessage());
+        // 2. Perform manual sorting
+        SortingService sortingService = new SortingService();
+        sortingService.bubbleSort(capacities);
 
-        } finally {
-            // Mandatory logic that runs no matter what (logging/cleanup)
-            System.out.println("Cargo validation completed for " + bogieG1.getShape() + " bogie.");
-        }
-
-        System.out.println("\nUC15: System remains operational after safety check.");
+        // 3. Display sorted result
+        System.out.println("Sorted Capacities (Ascending): " + Arrays.toString(capacities));
+        System.out.println("UC16 sorting completed successfully.");
         
 	}
 
