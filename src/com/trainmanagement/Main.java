@@ -4,12 +4,12 @@ import com.trainmanagement.models.*;
 import com.trainmanagement.services.*;
 
 /**
- * Use Case 10: Count Total Seats in Train.
- * This service performs quantitative analysis by aggregating numeric 
- * properties across the collection using functional reduction.
+ * Use Case 11: Validate Train ID and Cargo Code.
+ * This service uses Pattern matching to ensure data integrity 
+ * across the application.
  *
  * @author Developer
- * @version 10.0
+ * @version 11.0
  */
 
 public class Main {
@@ -29,7 +29,25 @@ public class Main {
         int totalCapacity = trainService.calculateTotalSeats();
 
         System.out.println("\nTotal Seating Capacity of Train: " + totalCapacity);
-        System.out.println("UC10 aggregation completed successfully.");
+        System.out.println("UC10 aggregation completed successfully.\n");
+        
+        String[] testTrainIds = {"TRN-6524", "TRAIN-12", "TRN-99999"};
+        
+        for (String id : testTrainIds) {
+            boolean isValid = ValidationService.isValidTrainId(id);
+            System.out.println("Train ID [" + id + "] Valid: " + isValid);
+        }
+        
+        String validCargo = "PET-FH";
+        String invalidCargo = "PET-12";
+
+        System.out.println("\nCargo Code [" + validCargo + "] Valid: " + 
+                           ValidationService.isValidCargoCode(validCargo));
+        System.out.println("Cargo Code [" + invalidCargo + "] Valid: " + 
+                           ValidationService.isValidCargoCode(invalidCargo));
+
+        System.out.println("\nUC11 validation completed successfully.");
+        
 	}
 
 }
