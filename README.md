@@ -1,15 +1,13 @@
 # TrainConsistManagementApp
 The Train Consist Management App is a console-based Java application that simulates how a railway system manages a train’s consist, which is a collection of bogies attached to an engine.
 
-## Use Case 16: Sort Passenger Bogies by Capacity (Bubble Sort – Algorithm Intro)
+## Use Case 17: Sort Bogie Names Using Arrays.sort()
 ### Description
-The goal is to Sort passenger bogie capacities using a basic algorithm (Bubble Sort) instead of library methods.
+The goal is to Sort bogie type names alphabetically using Java’s built-in Arrays.sort() method.
 
 The flow -
- - User provides passenger bogie capacities.
- - System iterates through the array.
- - Adjacent values are compared.
- - If out of order, values are swapped.
- - Multiple passes continue until sorted.
- - Sorted result is displayed.
+ - User provides bogie type names.
+ - System calls Arrays.sort() on the array.
+ - Java internally sorts the values.
+ - Sorted bogie names are displayed.
  - Program continues.

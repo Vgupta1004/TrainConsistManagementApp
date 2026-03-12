@@ -5,12 +5,17 @@ import com.trainmanagement.services.*;
 import com.trainmanagement.exceptions.*;
 
 /**
- * Use Case 16: Sort Passenger Bogies by Capacity (Bubble Sort)
- * Implements the Bubble Sort algorithm for educational purposes 
- * to demonstrate O(n^2) time complexity.
+ * Use Case 17: Sort Bogie Names Using Arrays.sort()
+ * Description:
+ * This use case demonstrates the sorting of bogie capacities 
+ * using a manual implementation of the bubble sort algorithm. 
+ * The application initializes an array of bogie capacities, 
+ * sorts them in ascending order, and displays the sorted result. 
+ * This illustrates the concept of sorting algorithms and their 
+ * application in managing train consist data.
  * 
  * @author Developer
- * @version 16.0
+ * @version 17.0
  */
 
 public class Main {
@@ -20,17 +25,15 @@ public class Main {
 		System.out.println("Train Consist Management App");
 		System.out.println("---------------------------------------");
 		
-		int[] capacities = {72, 56, 24, 70, 60};
+		String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
         
-        System.out.println("Original Capacities: " + Arrays.toString(capacities));
+        System.out.println("Original Bogie Names: " + Arrays.toString(bogieNames));
 
-        // 2. Perform manual sorting
         SortingService sortingService = new SortingService();
-        sortingService.bubbleSort(capacities);
+        sortingService.sortBogieNames(bogieNames);
 
-        // 3. Display sorted result
-        System.out.println("Sorted Capacities (Ascending): " + Arrays.toString(capacities));
-        System.out.println("UC16 sorting completed successfully.");
+        System.out.println("Sorted Bogie Names (Alphabetical): " + Arrays.toString(bogieNames));
+        System.out.println("UC17 sorting completed.");
         
 	}
 
