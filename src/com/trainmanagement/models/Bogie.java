@@ -1,4 +1,5 @@
 package com.trainmanagement.models;
+import com.trainmanagement.exceptions.*;
 
 public class Bogie {
 
@@ -6,7 +7,10 @@ public class Bogie {
     private String name;
     private int capacity;
 
-    public Bogie(String id, String name, int capacity) {
+    public Bogie(String id, String name, int capacity) throws InvalidCapacityException {
+    	if (capacity <= 0) {
+            throw new InvalidCapacityException("Capacity must be greater than zero. Provided: " + capacity); // [cite: 1618]
+        }
         this.id = id;
         this.name = name;
         this.capacity = capacity;

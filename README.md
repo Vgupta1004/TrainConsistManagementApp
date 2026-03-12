@@ -1,15 +1,13 @@
 # TrainConsistManagementApp
 The Train Consist Management App is a console-based Java application that simulates how a railway system manages a train’s consist, which is a collection of bogies attached to an engine.
 
-## Use Case 13: Performance Comparison (Loops vs Streams)
+## Use Case 14: Handle Invalid Bogie Capacity (Custom Exception)
 ### Description
-The goal is to Compare performance of loop-based logic versus stream-based logic using time measurement.
+The goal is to Prevent invalid passenger bogies from being added to the train by enforcing capacity rules using a custom exception.
 
 The flow -
- - User prepares a collection of bogies.
- - System records start time using System.nanoTime().
- - Filtering is performed using a loop or stream.
- - System records end time.
- - Elapsed time is calculated.
- - Execution time is displayed.
- - Program continues.
+ - User attempts to create a passenger bogie.
+ - System validates the capacity value.
+ - If capacity ≤ 0, a custom exception is thrown.
+ - If capacity is valid, the bogie is created successfully
+ - System continues execution safely.
