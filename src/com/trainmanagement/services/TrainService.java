@@ -20,14 +20,16 @@ public class TrainService {
     }
     
     /**
-     * Groups bogies by their name/type.
-     * @return A Map where keys are Bogie names and values are Lists of those Bogies.
+     * Calculates the total seating capacity of the train.
+     * Uses map() to extract capacities and reduce() to sum them.
      */
-    public Map<String, List<Bogie>> groupBogiesByType() {
-        // stream() initiates the pipeline
-        // groupingBy() classifies elements based on the Bogie name
+    public int calculateTotalSeats() {
+        // stream() initiates the pipeline [cite: 1074]
+        // map(Bogie::getCapacity) extracts numeric values [cite: 1075]
+        // reduce(0, Integer::sum) aggregates values into a total [cite: 1076]
         return formation.stream()
-                .collect(Collectors.groupingBy(Bogie::getName));
+                .map(Bogie::getCapacity) 
+                .reduce(0, Integer::sum); 
     }
     
     public void removeBogieById(String id) {
