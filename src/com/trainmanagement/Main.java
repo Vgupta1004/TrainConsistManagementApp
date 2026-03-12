@@ -4,12 +4,12 @@ import com.trainmanagement.models.*;
 import com.trainmanagement.services.*;
 
 /**
- * Use Case 8: Filter Passenger Bogies Using Streams.
- * This service applies functional filtering to the train consist
- * to isolate bogies based on specific capacity requirements.
+ * Use Case 9: Group Bogies by Type.
+ * This service transforms flat collections into hierarchical structures
+ * suitable for reporting and operational analysis.
  *
  * @author Developer
- * @version 8.0
+ * @version 9.0
  */
 
 public class Main {
@@ -23,17 +23,19 @@ public class Main {
 		
 		trainService.addBogie(new Bogie("B-101", "Sleeper", 72));
         trainService.addBogie(new Bogie("B-102", "AC Chair", 56));
-        trainService.addBogie(new Bogie("B-103", "First Class", 24));
-        trainService.addBogie(new Bogie("B-104", "General", 90));
+        trainService.addBogie(new Bogie("B-103", "Sleeper", 70));
+        trainService.addBogie(new Bogie("B-104", "AC Chair", 60));
+        trainService.addBogie(new Bogie("B-105", "First Class", 24));
         
-        int limit = 60;
-        List<Bogie> highCapBogies = trainService.filterHighCapacityBogies(limit);
+        Map<String, List<Bogie>> groupedBogies = trainService.groupBogiesByType();
         
-        System.out.println("\nFiltered Bogies (Capacity > " + limit + "):");
-        highCapBogies.forEach(b -> System.out.println(b.getName() + " -> " + b.getCapacity()));
+        System.out.println("\n--- Categorized Bogie Report ---");
+        groupedBogies.forEach((type, list) -> {
+            System.out.println("Category: " + type + " (Count: " + list.size() + ")");
+            list.forEach(b -> System.out.println("  -> ID: " + b.getId() + ", Capacity: " + b.getCapacity()));
+        });
         
-        System.out.println("UC8 filtering completed.");
-        
+        System.out.println("\nUC9 classification logic completed.");
 	}
 
 }

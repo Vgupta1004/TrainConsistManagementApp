@@ -20,17 +20,14 @@ public class TrainService {
     }
     
     /**
-     * Filters bogies by capacity using the Stream API.
-     * @param threshold The minimum seating capacity required
-     * @return A list of bogies meeting the criteria.
+     * Groups bogies by their name/type.
+     * @return A Map where keys are Bogie names and values are Lists of those Bogies.
      */
-    public List<Bogie> filterHighCapacityBogies(int threshold) {
-        // stream() converts the set into a pipeline
-        // filter() selects elements meeting the condition
-        // collect() transforms the result back into a List
+    public Map<String, List<Bogie>> groupBogiesByType() {
+        // stream() initiates the pipeline
+        // groupingBy() classifies elements based on the Bogie name
         return formation.stream()
-                .filter(b -> b.getCapacity() > threshold) // Lambda condition 
-                .collect(Collectors.toList()); 
+                .collect(Collectors.groupingBy(Bogie::getName));
     }
     
     public void removeBogieById(String id) {
