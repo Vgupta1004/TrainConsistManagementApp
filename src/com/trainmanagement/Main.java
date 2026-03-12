@@ -4,12 +4,12 @@ import com.trainmanagement.models.*;
 import com.trainmanagement.services.*;
 
 /**
- * Use Case 7: Sort Bogies by Capacity.
- * Uses Comparator to rearrange bogies based on seating capacity.
- * Maintains separation of data and logic for better maintainability
+ * Use Case 8: Filter Passenger Bogies Using Streams.
+ * This service applies functional filtering to the train consist
+ * to isolate bogies based on specific capacity requirements.
  *
  * @author Developer
- * @version 7.0
+ * @version 8.0
  */
 
 public class Main {
@@ -26,7 +26,14 @@ public class Main {
         trainService.addBogie(new Bogie("B-103", "First Class", 24));
         trainService.addBogie(new Bogie("B-104", "General", 90));
         
-        trainService.sortBogiesByCapacity();
+        int limit = 60;
+        List<Bogie> highCapBogies = trainService.filterHighCapacityBogies(limit);
+        
+        System.out.println("\nFiltered Bogies (Capacity > " + limit + "):");
+        highCapBogies.forEach(b -> System.out.println(b.getName() + " -> " + b.getCapacity()));
+        
+        System.out.println("UC8 filtering completed.");
+        
 	}
 
 }

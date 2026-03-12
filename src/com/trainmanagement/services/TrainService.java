@@ -2,6 +2,7 @@ package com.trainmanagement.services;
 
 import com.trainmanagement.models.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TrainService {
 
@@ -19,18 +20,17 @@ public class TrainService {
     }
     
     /**
-     * Sorts and displays bogies by capacity in ascending order.
-     * Uses Comparator.comparingInt() for clean, declarative logic.
+     * Filters bogies by capacity using the Stream API.
+     * @param threshold The minimum seating capacity required
+     * @return A list of bogies meeting the criteria.
      */
-    public void sortBogiesByCapacity() {
-        // Step 1: Convert Set to List to allow sorting
-        List<Bogie> bogieList = new ArrayList<>(formation);
-
-        // Step 2: Apply sorting logic using a Lambda Expression
-        bogieList.sort(Comparator.comparingInt(Bogie::getCapacity));
-
-        System.out.println("\n--- Bogies Sorted by Capacity (Ascending) ---");
-        bogieList.forEach(b -> System.out.println(b.getName() + " -> " + b.getCapacity()));
+    public List<Bogie> filterHighCapacityBogies(int threshold) {
+        // stream() converts the set into a pipeline
+        // filter() selects elements meeting the condition
+        // collect() transforms the result back into a List
+        return formation.stream()
+                .filter(b -> b.getCapacity() > threshold) // Lambda condition 
+                .collect(Collectors.toList()); 
     }
     
     public void removeBogieById(String id) {
