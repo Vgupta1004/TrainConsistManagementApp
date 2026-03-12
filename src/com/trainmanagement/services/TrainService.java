@@ -6,58 +6,35 @@ import java.util.*;
 public class TrainService {
 
 	private Set<Bogie> formation = new LinkedHashSet<>();
-	private Map<String, Integer> capacityRules = new HashMap<>();
 
 	/**
-     * Defines the capacity rule for a specific type of bogie
-     */
-    public void setCapacityRule(String type, int capacity) {
-        capacityRules.put(type, capacity); // [cite: 548, 562]
-        System.out.println("Rule Defined: " + type + " bogies carry " + capacity + " units.");
-    }
-    
-    /**
-     * CREATE: Attaches a bogie to the train
+     * Adds a bogie to the formation.
      */
     public void addBogie(Bogie bogie) {
-        if (!formation.add(bogie)) { // [cite: 435]
-            System.out.println("Error: Bogie " + bogie.getId() + " is already attached.");
+        if (!formation.add(bogie)) {
+            System.out.println("Duplicate ID: " + bogie.getId() + " rejected.");
             return;
         }
-        System.out.println("Attached: " + bogie.getId());
+        System.out.println("Added: " + bogie.getId());
     }
     
     /**
-     * DELETE: Detaches a bogie by its ID
+     * Sorts and displays bogies by capacity in ascending order.
+     * Uses Comparator.comparingInt() for clean, declarative logic.
      */
+    public void sortBogiesByCapacity() {
+        // Step 1: Convert Set to List to allow sorting
+        List<Bogie> bogieList = new ArrayList<>(formation);
+
+        // Step 2: Apply sorting logic using a Lambda Expression
+        bogieList.sort(Comparator.comparingInt(Bogie::getCapacity));
+
+        System.out.println("\n--- Bogies Sorted by Capacity (Ascending) ---");
+        bogieList.forEach(b -> System.out.println(b.getName() + " -> " + b.getCapacity()));
+    }
+    
     public void removeBogieById(String id) {
-        boolean removed = formation.removeIf(b -> b.getId().equals(id));
-        if (removed) {
-            System.out.println("Detached: " + id);
-        } else {
-            System.out.println("Error: Bogie " + id + " not found.");
-        }
-    }
-    
-    /**
-     * READ: Verifies if a bogie is in the consist
-     */
-    public boolean hasBogie(String id) {
-        return formation.stream().anyMatch(b -> b.getId().equals(id));
-    }
-    
-    
-    /**
-     * READ: Displays the full consist with capacity lookups
-     */
-    public void printFullStatus() {
-        System.out.println("\n--- Current Train Status ---");
-        for (Bogie bogie : formation) {
-            // Lookup capacity based on the bogie name/type from our Map
-            Integer cap = capacityRules.get(bogie.getName());
-            System.out.println(bogie.getId() + " [" + bogie.getName() + "] -> Capacity: " + (cap != null ? cap : "Unknown"));
-        }
-        System.out.println("Total Bogies: " + formation.size());
+        formation.removeIf(b -> b.getId().equals(id));
     }
     
 }
