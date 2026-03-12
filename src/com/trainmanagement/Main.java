@@ -5,17 +5,13 @@ import com.trainmanagement.services.*;
 import com.trainmanagement.exceptions.*;
 
 /**
- * Use Case 18: Linear Search for Bogie ID (Array-Based Searching)
- * Description: This use case demonstrates a linear search algorithm 
- * to find a specific bogie ID within an array of bogie names. 
- * The linear search iterates through each element in the array sequentially 
- * until it finds a match or reaches the end of the array. 
- * This is a fundamental searching technique that is easy to 
- * implement and understand, making it suitable for small datasets or unsorted arrays.
- * 
- * 
+ * Use Case 19: Binary Search for Bogie ID (Optimized Searching)
+ * Description:
+ * This use case demonstrates an optimized search 
+ * operation within the train consist using binary search.
+ *
  * @author Developer
- * @version 18.0
+ * @version 19.0
  */
 
 public class Main {
@@ -25,21 +21,19 @@ public class Main {
 		System.out.println("Train Consist Management App");
 		System.out.println("---------------------------------------");
 		
-		String[] trainConsist = {"ENG-01", "SL-101", "AC-202", "PC-500", "GR-99"};
-        
-        SearchService searchService = new SearchService();
-        String target = "PC-500"; // Searching for the Pantry Car
+		String[] sortedConsist = {"AC-202", "ENG-01", "GR-99", "PC-500", "SL-101"};
+        System.out.println("Sorted Consist: " + Arrays.toString(sortedConsist));
 
-        int resultIndex = searchService.findBogieIndex(trainConsist, target);
+        SearchService searchService = new SearchService();
+        String target = "GR-99";
+
+        int resultIndex = searchService.binarySearchBogie(sortedConsist, target);
 
         if (resultIndex != -1) {
-            System.out.println("Bogie " + target + " located at Position: " + resultIndex);
+            System.out.println("Bogie " + target + " found at index: " + resultIndex);
         } else {
-            System.out.println("Bogie " + target + " not found in the current consist.");
+            System.out.println("Bogie " + target + " not found.");
         }
-        
-        System.out.println("UC18 search operation completed.");
-        
-	}
+    }
 
 }
