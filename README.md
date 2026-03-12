@@ -1,13 +1,15 @@
 # TrainConsistManagementApp
 The Train Consist Management App is a console-based Java application that simulates how a railway system manages a train’s consist, which is a collection of bogies attached to an engine.
 
-## Use Case 11: Validate Train ID & Cargo Codes (Regex)
+## Use Case 12: Safety Compliance Check for Goods Bogies
 ### Description
-The goal is to Validate Train ID and Cargo Code formats using Regular Expressions.
+The goal is to Encapsulate bogie rules using functional interfaces and apply them using lambda expressions.
+
 The flow -
- - The user enters the Train ID and Cargo Code.
- - System compiles a regex pattern.
- - Matcher checks input against the pattern.
- - If the format matches, input is accepted.
- - If not, validation fails, and an error message is shown.
+ - User prepares a list of goods bogies.
+ - System converts the list into a stream.
+ - allMatch() checks every bogie against safety rules.
+ - Conditional logic verifies cylindrical bogie cargo.
+ - If all checks pass, the train is marked safe.
+ - Result is displayed to the user.
  - Program continues.

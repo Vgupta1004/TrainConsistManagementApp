@@ -4,12 +4,11 @@ import com.trainmanagement.models.*;
 import com.trainmanagement.services.*;
 
 /**
- * Use Case 11: Validate Train ID and Cargo Code.
- * This service uses Pattern matching to ensure data integrity 
- * across the application.
+ * UC12: Checks if the entire train formation is safety-compliant.
+ * Rule: Cylindrical bogies MUST only carry Petroleum.
  *
  * @author Developer
- * @version 11.0
+ * @version 12.0
  */
 
 public class Main {
@@ -21,32 +20,18 @@ public class Main {
 		
 		TrainService trainService = new TrainService();
 		
-		trainService.addBogie(new Bogie("B-101", "Sleeper", 72));
-        trainService.addBogie(new Bogie("B-102", "AC Chair", 56));
-        trainService.addBogie(new Bogie("B-103", "First Class", 24));
-        trainService.addBogie(new Bogie("B-104", "Sleeper", 70));
+		trainService.addGoodsBogie(new GoodsBogie("G1", "Cylindrical", "Petroleum"));
+        trainService.addGoodsBogie(new GoodsBogie("G2", "Open", "Coal"));
+        trainService.addGoodsBogie(new GoodsBogie("G3", "Box", "Grain"));
+        trainService.addGoodsBogie(new GoodsBogie("G4", "Cylindrical", "Coal"));
         
-        int totalCapacity = trainService.calculateTotalSeats();
+        trainService.printGoodsConsist();
+        boolean isSafe = trainService.isTrainSafetyCompliant();
 
-        System.out.println("\nTotal Seating Capacity of Train: " + totalCapacity);
-        System.out.println("UC10 aggregation completed successfully.\n");
-        
-        String[] testTrainIds = {"TRN-6524", "TRAIN-12", "TRN-99999"};
-        
-        for (String id : testTrainIds) {
-            boolean isValid = ValidationService.isValidTrainId(id);
-            System.out.println("Train ID [" + id + "] Valid: " + isValid);
+        System.out.println("\nSafety Compliance Status: " + isSafe);
+        if (!isSafe) {
+            System.out.println("ALERT: Train formation is NOT SAFE. Check Cylindrical bogies.");
         }
-        
-        String validCargo = "PET-FH";
-        String invalidCargo = "PET-12";
-
-        System.out.println("\nCargo Code [" + validCargo + "] Valid: " + 
-                           ValidationService.isValidCargoCode(validCargo));
-        System.out.println("Cargo Code [" + invalidCargo + "] Valid: " + 
-                           ValidationService.isValidCargoCode(invalidCargo));
-
-        System.out.println("\nUC11 validation completed successfully.");
         
 	}
 
