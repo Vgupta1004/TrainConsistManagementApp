@@ -5,13 +5,17 @@ import com.trainmanagement.services.*;
 import com.trainmanagement.exceptions.*;
 
 /**
- * Use Case 19: Binary Search for Bogie ID (Optimized Searching)
- * Description:
- * This use case demonstrates an optimized search 
- * operation within the train consist using binary search.
+ * Use Case 20: Exception Handling During Search Operations
+ * Description: This use case demonstrates robust exception handling 
+ * during search operations in the Train Consist Management App. 
+ * It simulates a scenario where a user attempts to search for a 
+ * bogie in a sorted consist using binary search. 
+ * The code includes error handling to manage cases where the 
+ * target bogie is not found, ensuring that the application remains 
+ * stable and provides informative feedback to the user.
  *
  * @author Developer
- * @version 19.0
+ * @version 20.0
  */
 
 public class Main {
@@ -21,19 +25,20 @@ public class Main {
 		System.out.println("Train Consist Management App");
 		System.out.println("---------------------------------------");
 		
-		String[] sortedConsist = {"AC-202", "ENG-01", "GR-99", "PC-500", "SL-101"};
-        System.out.println("Sorted Consist: " + Arrays.toString(sortedConsist));
+		SearchService searchService = new SearchService();
+        List<String> trainConsist = new ArrayList<>();
 
-        SearchService searchService = new SearchService();
-        String target = "GR-99";
+        try {
+            System.out.println("Triggering search on an empty train consist...");
+            // This triggers the IllegalStateException
+            searchService.findBogieWithStateCheck(trainConsist, "BG-101");
 
-        int resultIndex = searchService.binarySearchBogie(sortedConsist, target);
-
-        if (resultIndex != -1) {
-            System.out.println("Bogie " + target + " found at index: " + resultIndex);
-        } else {
-            System.out.println("Bogie " + target + " not found.");
+        } catch (IllegalStateException e) {
+            // Catching the runtime exception to show a meaningful message
+            System.err.println("STOPPED: " + e.getMessage()); 
         }
+
+        System.out.println("\nUC20: System protected from invalid search state.");
     }
 
 }

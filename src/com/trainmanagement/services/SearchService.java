@@ -1,29 +1,27 @@
 package com.trainmanagement.services;
+import java.util.List;
 
 public class SearchService {
 
 	/**
-     * Performs a binary search on a sorted array of IDs.
-     * @param sortedIds The alphabetically sorted array of Bogie IDs.
+     * Performs a search only if the train consist is populated.
+     * @param consist The current list of bogies.
      * @param targetId The ID to find.
-     * @return The index of the ID, or -1 if not found.
+     * @throws IllegalStateException if the train is empty.
      */
-    public int binarySearchBogie(String[] sortedIds, String targetId) {
-        int low = 0;
-        int high = sortedIds.length - 1;
+    public int findBogieWithStateCheck(List<String> consist, String targetId) {
+        // STATE VALIDATION: Check if the collection is empty
+        if (consist == null || consist.isEmpty()) {
+            // FAIL-FAST: Throw runtime exception immediately
+            throw new IllegalStateException("Search Error: Cannot search an empty train consist.");
+        }
 
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            int comparison = targetId.compareToIgnoreCase(sortedIds[mid]);
-
-            if (comparison == 0) {
-                return mid; // Found the target
-            } else if (comparison > 0) {
-                low = mid + 1; // Target is in the upper half
-            } else {
-                high = mid - 1; // Target is in the lower half
+        // Search logic only runs if validation passes
+        for (int i = 0; i < consist.size(); i++) {
+            if (consist.get(i).equalsIgnoreCase(targetId)) {
+                return i;
             }
         }
-        return -1; // Not found
+        return -1;
     }
 }
