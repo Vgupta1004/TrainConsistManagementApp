@@ -4,11 +4,12 @@ import com.trainmanagement.models.*;
 import com.trainmanagement.services.*;
 
 /**
- * UC12: Checks if the entire train formation is safety-compliant.
- * Rule: Cylindrical bogies MUST only carry Petroleum.
+ * Use Case 13: Performance Comparison.
+ * This service benchmarks high-resolution execution time to compare 
+ * imperative loops and declarative streams
  *
  * @author Developer
- * @version 12.0
+ * @version 13.0
  */
 
 public class Main {
@@ -18,20 +19,34 @@ public class Main {
 		System.out.println("Train Consist Management App");
 		System.out.println("---------------------------------------");
 		
-		TrainService trainService = new TrainService();
-		
-		trainService.addGoodsBogie(new GoodsBogie("G1", "Cylindrical", "Petroleum"));
-        trainService.addGoodsBogie(new GoodsBogie("G2", "Open", "Coal"));
-        trainService.addGoodsBogie(new GoodsBogie("G3", "Box", "Grain"));
-        trainService.addGoodsBogie(new GoodsBogie("G4", "Cylindrical", "Coal"));
+System.out.println("=== UC13: Performance Benchmarking (Loops vs Streams) ===");
         
-        trainService.printGoodsConsist();
-        boolean isSafe = trainService.isTrainSafetyCompliant();
-
-        System.out.println("\nSafety Compliance Status: " + isSafe);
-        if (!isSafe) {
-            System.out.println("ALERT: Train formation is NOT SAFE. Check Cylindrical bogies.");
+        // 1. Create a large test dataset (10,000 bogies)
+        List<Bogie> testData = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            testData.add(new Bogie("ID-" + i, "Sleeper", (int)(Math.random() * 100)));
         }
+
+        PerformanceService perfService = new PerformanceService();
+        int threshold = 50;
+
+        // 2. Measure Loop Performance
+        long loopTime = perfService.benchmarkLoop(testData, threshold);
+        System.out.println("Loop Execution Time (ns): " + loopTime);
+
+        // 3. Measure Stream Performance
+        long streamTime = perfService.benchmarkStream(testData, threshold);
+        System.out.println("Stream Execution Time (ns): " + streamTime);
+
+        // 4. Comparison Summary
+        System.out.println("\nPerformance Insight:");
+        if (loopTime < streamTime) {
+            System.out.println("Result: Traditional loop was faster for this dataset.");
+        } else {
+            System.out.println("Result: Stream API was faster for this dataset.");
+        }
+        
+        System.out.println("UC13 benchmarking completed.");
         
 	}
 
