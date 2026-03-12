@@ -5,17 +5,17 @@ import com.trainmanagement.services.*;
 import com.trainmanagement.exceptions.*;
 
 /**
- * Use Case 17: Sort Bogie Names Using Arrays.sort()
- * Description:
- * This use case demonstrates the sorting of bogie capacities 
- * using a manual implementation of the bubble sort algorithm. 
- * The application initializes an array of bogie capacities, 
- * sorts them in ascending order, and displays the sorted result. 
- * This illustrates the concept of sorting algorithms and their 
- * application in managing train consist data.
+ * Use Case 18: Linear Search for Bogie ID (Array-Based Searching)
+ * Description: This use case demonstrates a linear search algorithm 
+ * to find a specific bogie ID within an array of bogie names. 
+ * The linear search iterates through each element in the array sequentially 
+ * until it finds a match or reaches the end of the array. 
+ * This is a fundamental searching technique that is easy to 
+ * implement and understand, making it suitable for small datasets or unsorted arrays.
+ * 
  * 
  * @author Developer
- * @version 17.0
+ * @version 18.0
  */
 
 public class Main {
@@ -25,15 +25,20 @@ public class Main {
 		System.out.println("Train Consist Management App");
 		System.out.println("---------------------------------------");
 		
-		String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+		String[] trainConsist = {"ENG-01", "SL-101", "AC-202", "PC-500", "GR-99"};
         
-        System.out.println("Original Bogie Names: " + Arrays.toString(bogieNames));
+        SearchService searchService = new SearchService();
+        String target = "PC-500"; // Searching for the Pantry Car
 
-        SortingService sortingService = new SortingService();
-        sortingService.sortBogieNames(bogieNames);
+        int resultIndex = searchService.findBogieIndex(trainConsist, target);
 
-        System.out.println("Sorted Bogie Names (Alphabetical): " + Arrays.toString(bogieNames));
-        System.out.println("UC17 sorting completed.");
+        if (resultIndex != -1) {
+            System.out.println("Bogie " + target + " located at Position: " + resultIndex);
+        } else {
+            System.out.println("Bogie " + target + " not found in the current consist.");
+        }
+        
+        System.out.println("UC18 search operation completed.");
         
 	}
 
